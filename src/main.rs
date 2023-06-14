@@ -8,14 +8,10 @@ fn read_input() -> String {
 }
 
 fn parse_input(input: &str) -> Option<Input> {
-    let mut iter = input.chars();
-    let c = iter.next()?;
-    if c == ':' {
-        let cmd_input: String = iter.collect();
-        parse_command(&cmd_input).map(Input::Command)
+    if input.chars().next()? == ':' {
+        parse_command(&input[1..]).map(Input::Command)
     } else {
-        let expr_input: String = std::iter::once(c).chain(iter).collect();
-        parse_expression(&expr_input).map(Input::Expression)
+        parse_expression(input).map(Input::Expression)
     }
 }
 
