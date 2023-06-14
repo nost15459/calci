@@ -29,7 +29,7 @@ fn parse_command(input: &str) -> Option<Command> {
 fn parse_expression(input: &str) -> Option<Vec<Token>> {
     let mut tokens = Vec::new();
     for t in input.split_ascii_whitespace() {
-        if let Ok(num) = t.parse::<i32>() {
+        if let Ok(num) = t.parse::<f32>() {
             tokens.push(Token::Number(num));
         } else {
             match t {
@@ -44,7 +44,7 @@ fn parse_expression(input: &str) -> Option<Vec<Token>> {
     Some(tokens)
 }
 
-fn eval(tokens: &[Token]) -> Option<i32> {
+fn eval(tokens: &[Token]) -> Option<f32> {
     let mut stack = Vec::new();
     for i in tokens {
         match i {
@@ -84,7 +84,7 @@ enum Command {
 }
 
 enum Token {
-    Number(i32),
+    Number(f32),
     Operator(Operator),
 }
 
