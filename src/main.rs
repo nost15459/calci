@@ -161,14 +161,14 @@ fn main() {
     loop {
         let input = prompt();
         let Some(input) = parse_input(&input) else {
-            println!("invailed input");
+            println!("invalid input");
             continue;
         };
 
         match input {
             Input::Expression(tokens) => {
                 let Some((result,history)) = eval(&tokens) else {
-                    println!("invailed expression");
+                    println!("invalid expression");
                     continue;
                 };
                 stack_history = history;
