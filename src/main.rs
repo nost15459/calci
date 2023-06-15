@@ -3,6 +3,57 @@ use std::{
     io::{self, Write},
 };
 
+enum Input {
+    Expression(Vec<Token>),
+    Command(Command),
+}
+
+#[derive(Debug, PartialEq, Eq)]
+enum Command {
+    Quit,
+    Trace,
+}
+
+enum Token {
+    Number(f32),
+    Operator(Operator),
+}
+
+impl Display for Token {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Self::Number(num) => write!(f, "{}", num),
+            Self::Operator(op) => write!(f, "{}", op),
+        }
+    }
+}
+
+enum Operator {
+    Add,
+    Sub,
+    Mul,
+    Div,
+}
+
+impl Display for Operator {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let display = match self {
+            Self::Add => Self::ADD,
+            Self::Sub => Self::SUB,
+            Self::Mul => Self::MUL,
+            Self::Div => Self::DIV,
+        };
+        write!(f, "{}", display)
+    }
+}
+
+impl Operator {
+    const ADD: &str = "+";
+    const SUB: &str = "-";
+    const MUL: &str = "*";
+    const DIV: &str = "/";
+}
+
 fn read_input() -> String {
     let stdin = io::stdin();
     let mut buf = String::new();
@@ -76,57 +127,6 @@ fn prompt() -> String {
     print!("> ");
     io::stdout().flush().unwrap();
     read_input()
-}
-
-enum Input {
-    Expression(Vec<Token>),
-    Command(Command),
-}
-
-#[derive(Debug, PartialEq, Eq)]
-enum Command {
-    Quit,
-    Trace,
-}
-
-enum Token {
-    Number(f32),
-    Operator(Operator),
-}
-
-impl Display for Token {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        match self {
-            Self::Number(num) => write!(f, "{}", num),
-            Self::Operator(op) => write!(f, "{}", op),
-        }
-    }
-}
-
-enum Operator {
-    Add,
-    Sub,
-    Mul,
-    Div,
-}
-
-impl Display for Operator {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        let display = match self {
-            Self::Add => Self::ADD,
-            Self::Sub => Self::SUB,
-            Self::Mul => Self::MUL,
-            Self::Div => Self::DIV,
-        };
-        write!(f, "{}", display)
-    }
-}
-
-impl Operator {
-    const ADD: &str = "+";
-    const SUB: &str = "-";
-    const MUL: &str = "*";
-    const DIV: &str = "/";
 }
 
 fn print_stack_trace(expr: &[Token], stack_history: &[Vec<f32>]) {
