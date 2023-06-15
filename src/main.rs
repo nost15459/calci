@@ -66,6 +66,9 @@ fn eval(tokens: &[Token]) -> Option<(f32, Vec<Vec<f32>>)> {
         }
         history.push(stack.clone());
     }
+    if stack.len() != 1 {
+        println!("warning: stack is not empty at last");
+    }
     stack.pop().map(|r| (r, history))
 }
 
@@ -153,6 +156,7 @@ fn print_stack_trace(expr: &[Token], stack_history: &[Vec<f32>]) {
         }
         println!("]");
     }
+    println!("result:{}", stack_history.last().unwrap().last().unwrap());
 }
 
 fn main() {
